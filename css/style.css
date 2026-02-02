@@ -1,0 +1,194 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f6f6f6;
+  padding-bottom: 90px;
+}
+
+.topo {
+  background: #111;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+}
+
+.categorias {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.categorias button {
+  border: none;
+  background: #eee;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.categorias .ativo {
+  background: #111;
+  color: #fff;
+}
+
+.lista {
+  padding: 15px;
+}
+
+h2 {
+  margin: 20px 0 10px;
+}
+
+.item {
+  background: #fff;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.05);
+}
+
+.preco {
+  font-weight: 600;
+}
+
+.adicionais label {
+  display: block;
+  font-size: 14px;
+}
+
+textarea {
+  width: 100%;
+  margin: 10px 0;
+  border-radius: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.controle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controle button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #ddd;
+}
+
+.add {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #111;
+  color: #fff;
+}
+
+.ver-pedido {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 30px;
+  border: none;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+}
+
+#carrinho {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  background: #fff;
+  padding: 20px;
+  transition: .3s;
+  z-index: 10;
+}
+
+#carrinho.aberto {
+  right: 0;
+}
+
+.carrinho-topo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.voltar {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.item-carrinho {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.deletar {
+  cursor: pointer;
+  color: red;
+}
+
+.pagamentos button {
+  margin: 5px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #eee;
+}
+
+.pagamentos .ativo {
+  background: #111;
+  color: #fff;
+}
+
+.finalizar {
+  margin-top: 15px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(135deg,#25d366,#1ebe5d);
+  color: #fff;
+  font-weight: 600;
+}
+
+.finalizar:disabled {
+  background: #ccc;
+}
+
+#trocoBox p {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+#trocoBox label {
+  font-size: 14px;
+  cursor: pointer;
+}

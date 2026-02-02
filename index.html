@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food King – Cardápio Digital</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="topo">
+  <div class="logo">🍔 <strong>FOOD KING</strong></div>
+</header>
+
+<section class="categorias">
+  <button class="ativo" onclick="irPara('lanches', this)">Lanches</button>
+  <button onclick="irPara('bebidas', this)">Bebidas</button>
+  <button onclick="irPara('porcoes', this)">Porções</button>
+</section>
+
+<main class="lista">
+
+<h2 id="lanches">Lanches</h2>
+
+<div class="item">
+  <div class="info">
+    <h3>X-Bacon</h3>
+    <span class="preco">R$ 17,00</span>
+    <p>Pão, hambúrguer, bacon, queijo</p>
+
+    <div class="adicionais">
+      <label><input type="checkbox" value="Bacon extra|4"> Bacon extra (+R$4)</label>
+      <label><input type="checkbox" value="Queijo extra|3"> Queijo extra (+R$3)</label>
+    </div>
+
+    <textarea placeholder="Observações (ex: sem cebola)"></textarea>
+
+    <div class="controle">
+      <button onclick="menos(this)">−</button>
+      <span class="qtd">1</span>
+      <button onclick="mais(this)">+</button>
+    </div>
+
+    <button class="add" onclick="adicionar(this,'X-Bacon',17)">Adicionar</button>
+  </div>
+</div>
+
+<div class="item">
+  <div class="info">
+    <h3>X-Frango</h3>
+    <span class="preco">R$ 18,00</span>
+    <p>Frango grelhado, queijo, alface</p>
+
+    <textarea placeholder="Observações"></textarea>
+
+    <div class="controle">
+      <button onclick="menos(this)">−</button>
+      <span class="qtd">1</span>
+      <button onclick="mais(this)">+</button>
+    </div>
+
+    <button class="add" onclick="adicionar(this,'X-Frango',18)">Adicionar</button>
+  </div>
+</div>
+
+<h2 id="bebidas">Bebidas</h2>
+
+<div class="item">
+  <div class="info">
+    <h3>Refrigerante Lata</h3>
+    <span class="preco">R$ 6,00</span>
+    <p>Coca, Guaraná, Fanta</p>
+
+    <textarea placeholder="Sabor"></textarea>
+
+    <div class="controle">
+      <button onclick="menos(this)">−</button>
+      <span class="qtd">1</span>
+      <button onclick="mais(this)">+</button>
+    </div>
+
+    <button class="add" onclick="adicionar(this,'Refrigerante',6)">Adicionar</button>
+  </div>
+</div>
+
+<h2 id="porcoes">Porções</h2>
+
+<div class="item">
+  <div class="info">
+    <h3>Batata Frita</h3>
+    <span class="preco">R$ 15,00</span>
+    <p>Porção média</p>
+
+    <div class="adicionais">
+      <label><input type="checkbox" value="Cheddar|3"> Cheddar (+R$3)</label>
+      <label><input type="checkbox" value="Bacon|4"> Bacon (+R$4)</label>
+    </div>
+
+    <textarea placeholder="Observações"></textarea>
+
+    <div class="controle">
+      <button onclick="menos(this)">−</button>
+      <span class="qtd">1</span>
+      <button onclick="mais(this)">+</button>
+    </div>
+
+    <button class="add" onclick="adicionar(this,'Batata Frita',15)">Adicionar</button>
+  </div>
+</div>
+
+</main>
+
+<button class="ver-pedido" onclick="abrirCarrinho()">
+  Ver pedido (<span id="contador">0</span>)
+</button>
+
+<div id="overlay" onclick="fecharCarrinho()"></div>
+
+<aside id="carrinho">
+  <div class="carrinho-topo">
+    <span class="voltar" onclick="fecharCarrinho()">←</span>
+    <h3>Seu pedido</h3>
+  </div>
+
+  <ul id="listaCarrinho"></ul>
+
+  <h4>Forma de pagamento</h4>
+  <div class="pagamentos">
+    <button onclick="selecionarPagamento(this)">Pix</button>
+    <button onclick="selecionarPagamento(this)">Cartão</button>
+    <button onclick="selecionarPagamento(this)">Dinheiro</button>
+  </div>
+
+  <div id="trocoBox" style="display:none; margin-top:10px;">
+  <p>Precisa de troco?</p>
+
+  <label>
+    <input type="radio" name="troco" value="nao" checked>
+    Não
+  </label>
+
+  <label style="margin-left:10px;">
+    <input type="radio" name="troco" value="sim">
+    Sim, para R$
+  </label>
+
+  <input 
+    type="number" 
+    id="valorTroco" 
+    placeholder="Ex: 50"
+    style="width:100%; margin-top:5px; padding:8px; border-radius:8px; border:1px solid #ddd;"
+  >
+</div>
+
+
+  <p id="total">Total: R$ 0,00</p>
+
+  <button class="finalizar" id="btnFinalizar" onclick="finalizarPedido()" disabled>
+    Confirmar pedido no WhatsApp
+  </button>
+</aside>
+
+<script src="js/cardapio.js"></script>
+
+</body>
+</html>
