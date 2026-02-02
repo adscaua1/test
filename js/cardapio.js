@@ -127,7 +127,7 @@ function finalizarPedido(){
   msg += `💰 *Total:* R$ ${total.toFixed(2)}\n`;
   msg += `💳 *Pagamento:* ${pagamentoSelecionado}`;
 
-  const telefone = "5599999999999"; // TROQUE PELO NÚMERO DO RESTAURANTE
+  const telefone = "12988070269"; // TROQUE PELO NÚMERO DO RESTAURANTE
   const url = `https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`;
 
   window.open(url, "_blank");
