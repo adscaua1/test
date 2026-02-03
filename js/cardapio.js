@@ -133,16 +133,18 @@ function finalizarPedido() {
     return;
   }
 
-  let endereco = prompt("Digite seu endereço completo:");
-  if (!endereco || endereco.trim() === "") {
-    alert("Endereço obrigatório");
+  const endereco = document.getElementById("endereco").value.trim();
+  const bairro = document.getElementById("bairro").value.trim();
+
+  if (!endereco || !bairro) {
+    alert("Por favor, preencha o endereço e o bairro.");
     return;
   }
 
   let msg = "🧾 *NOVO PEDIDO*\n\n";
 
   carrinho.forEach(i => {
-    msg += `🍔 *${i.nome}*  —  ${i.qtd}x\n`;
+    msg += `🍔 *${i.nome}* — ${i.qtd}x\n`;
     if (i.extrasTexto) msg += `➕ ${i.extrasTexto}\n`;
     if (i.obs) msg += `📝 ${i.obs}\n`;
     msg += "\n";
@@ -152,6 +154,7 @@ function finalizarPedido() {
   msg += `💰 *Total:* R$ ${(total + taxaEntrega).toFixed(2)}\n`;
   msg += `💳 *Pagamento:* ${pagamentoSelecionado}\n`;
   msg += `📍 *Endereço:* ${endereco}\n`;
+  msg += `🏘️ *Bairro:* ${bairro}\n`;
 
   if (pagamentoSelecionado === "Dinheiro") {
     let troco = document.getElementById("valorTroco").value;
