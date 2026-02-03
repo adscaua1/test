@@ -10,6 +10,7 @@ body {
   padding-bottom: 90px;
 }
 
+/* topo */
 .topo {
   background: #111;
   color: #fff;
@@ -17,6 +18,7 @@ body {
   text-align: center;
 }
 
+/* categorias */
 .categorias {
   display: flex;
   justify-content: space-around;
@@ -32,7 +34,6 @@ body {
   background: #eee;
   padding: 8px 16px;
   border-radius: 20px;
-  cursor: pointer;
 }
 
 .categorias .ativo {
@@ -40,6 +41,7 @@ body {
   color: #fff;
 }
 
+/* lista */
 .lista {
   padding: 15px;
 }
@@ -48,6 +50,7 @@ h2 {
   margin: 20px 0 10px;
 }
 
+/* item */
 .item {
   background: #fff;
   border-radius: 16px;
@@ -58,11 +61,6 @@ h2 {
 
 .preco {
   font-weight: 600;
-}
-
-.adicionais label {
-  display: block;
-  font-size: 14px;
 }
 
 textarea {
@@ -84,9 +82,9 @@ textarea {
   height: 32px;
   border-radius: 50%;
   border: none;
-  background: #ddd;
 }
 
+/* botão adicionar */
 .add {
   margin-top: 10px;
   width: 100%;
@@ -97,6 +95,11 @@ textarea {
   color: #fff;
 }
 
+.add.adicionado {
+  background: #25d366;
+}
+
+/* ver pedido */
 .ver-pedido {
   position: fixed;
   bottom: 15px;
@@ -109,6 +112,7 @@ textarea {
   border: none;
 }
 
+/* overlay */
 #overlay {
   display: none;
   position: fixed;
@@ -116,6 +120,7 @@ textarea {
   background: rgba(0,0,0,.4);
 }
 
+/* carrinho */
 #carrinho {
   position: fixed;
   right: -100%;
@@ -127,6 +132,7 @@ textarea {
   padding: 20px;
   transition: .3s;
   z-index: 10;
+  overflow-y: auto;
 }
 
 #carrinho.aberto {
@@ -135,8 +141,8 @@ textarea {
 
 .carrinho-topo {
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 }
 
 .voltar {
@@ -150,17 +156,22 @@ textarea {
   margin: 12px 0;
 }
 
+.qtd-item {
+  margin-left: 8px;
+  font-weight: 600;
+}
+
 .deletar {
   cursor: pointer;
   color: red;
 }
 
+/* pagamentos */
 .pagamentos button {
   margin: 5px;
   padding: 8px 14px;
   border-radius: 20px;
   border: none;
-  background: #eee;
 }
 
 .pagamentos .ativo {
@@ -168,6 +179,7 @@ textarea {
   color: #fff;
 }
 
+/* finalizar */
 .finalizar {
   margin-top: 15px;
   width: 100%;
@@ -181,14 +193,4 @@ textarea {
 
 .finalizar:disabled {
   background: #ccc;
-}
-
-#trocoBox p {
-  font-weight: 500;
-  margin-bottom: 5px;
-}
-
-#trocoBox label {
-  font-size: 14px;
-  cursor: pointer;
 }
