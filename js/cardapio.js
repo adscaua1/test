@@ -2,54 +2,64 @@ let carrinho = [];
 let total = 0;
 let totalItens = 0;
 let pagamentoSelecionado = "";
-let trocoInfo = "";
+let taxaEntrega = 5;
 
 const lista = document.getElementById("listaCarrinho");
 const totalEl = document.getElementById("total");
 const contador = document.getElementById("contador");
 const btnFinalizar = document.getElementById("btnFinalizar");
+const btnVerPedido = document.querySelector(".ver-pedido");
 
-/* navegação */
-function irPara(id, botao){
+function irPara(id, botao) {
   document.getElementById(id).scrollIntoView({ behavior: "smooth" });
-  document.querySelectorAll(".categorias button").forEach(b=>b.classList.remove("ativo"));
+  document.querySelectorAll(".categorias button").forEach(b => b.classList.remove("ativo"));
   botao.classList.add("ativo");
 }
 
-/* quantidade */
-function mais(btn){
+function mais(btn) {
   btn.parentElement.querySelector(".qtd").innerText++;
 }
 
-function menos(btn){
+function menos(btn) {
   let qtd = btn.parentElement.querySelector(".qtd");
-  if(qtd.innerText > 1) qtd.innerText--;
+  if (qtd.innerText > 1) qtd.innerText--;
 }
 
-/* adicionar item */
-function adicionar(btn, nome, preco){
-  const item = btn.closest(".item");
-  const qtd = parseInt(item.querySelector(".qtd").innerText);
-  const obs = item.querySelector("textarea").value;
+function adicionar(btn, nome, preco) {
+  let item = btn.closest(".item");
+  let qtd = parseInt(item.querySelector(".qtd").innerText);
+  let obs = item.querySelector("textarea").value;
 
   let extras = [];
   let extraValor = 0;
 
-  item.querySelectorAll("input:checked").forEach(e=>{
-    const [nomeExtra, valor] = e.value.split("|");
+  item.querySelectorAll("input:checked").forEach(e => {
+    let [nomeExtra, valor] = e.value.split("|");
     extras.push(nomeExtra);
     extraValor += parseFloat(valor);
+    e.checked = false;
   });
 
-  const subtotal = (preco + extraValor) * qtd;
+  let subtotal = (preco + extraValor) * qtd;
 
-  carrinho.push({
-    nome,
-    qtd,
-    obs,
-    extrasTexto: extras.join(", "),
-    subtotal
-  });
+  let existente = carrinho.find(i =>
+    i.nome === nome &&
+    i.obs === obs &&
+    i.extrasTexto === extras.join(", ")
+  );
+
+  if (existente) {
+    existente.qtd += qtd;
+    existente.subtotal += subtotal;
+  } else {
+    carrinho.push({
+      nome,
+      qtd,
+      obs,
+      extrasTexto: extras.join(", "),
+      subtotal
+    });
+  }
 
   total += subtotal;
   totalItens += qtd;
@@ -57,30 +67,27 @@ function adicionar(btn, nome, preco){
   contador.innerText = totalItens;
   atualizarCarrinho();
 
-  /* feedback visual */
-  btn.innerText = "Adicionado ✔";
-  btn.classList.add("adicionado");
-
-  setTimeout(()=>{
+  btn.innerText = "✔ Adicionado";
+  btn.style.background = "#25d366";
+  setTimeout(() => {
     btn.innerText = "Adicionar";
-    btn.classList.remove("adicionado");
-  }, 1200);
+    btn.style.background = "";
+  }, 1000);
+
+  item.querySelector(".qtd").innerText = 1;
+  item.querySelector("textarea").value = "";
 }
 
-/* carrinho */
-function atualizarCarrinho(){
+function atualizarCarrinho() {
   lista.innerHTML = "";
-
-  carrinho.forEach((i, index)=>{
+  carrinho.forEach((i, index) => {
     lista.innerHTML += `
       <li class="item-carrinho">
         <div>
-          <strong>${i.nome}</strong>
-          <span class="qtd-item">${i.qtd}x</span><br>
-
-          ${i.extrasTexto ? `<small>+ ${i.extrasTexto}</small><br>` : ""}
-          ${i.obs ? `<small>Obs: ${i.obs}</small><br>` : ""}
-
+          <strong>${i.nome}</strong><br>
+          <span style="opacity:.7">Qtd: ${i.qtd}</span><br>
+          ${i.extrasTexto ? "➕ " + i.extrasTexto + "<br>" : ""}
+          ${i.obs ? "📝 " + i.obs + "<br>" : ""}
           <strong>R$ ${i.subtotal.toFixed(2)}</strong>
         </div>
         <span class="deletar" onclick="removerItem(${index})">🗑️</span>
@@ -88,92 +95,73 @@ function atualizarCarrinho(){
     `;
   });
 
-  totalEl.innerText = `Total: R$ ${total.toFixed(2)}`;
+  totalEl.innerText = `Total: R$ ${(total + taxaEntrega).toFixed(2)} (Entrega R$ ${taxaEntrega.toFixed(2)})`;
+  btnVerPedido.innerHTML = `Ver pedido (R$ ${(total + taxaEntrega).toFixed(2)})`;
 }
 
-function removerItem(index){
+function removerItem(index) {
   total -= carrinho[index].subtotal;
   totalItens -= carrinho[index].qtd;
-  carrinho.splice(index,1);
+  carrinho.splice(index, 1);
   contador.innerText = totalItens;
   atualizarCarrinho();
 }
 
-/* carrinho abrir/fechar */
-function abrirCarrinho(){
+function abrirCarrinho() {
   document.getElementById("carrinho").classList.add("aberto");
   document.getElementById("overlay").style.display = "block";
 }
 
-function fecharCarrinho(){
+function fecharCarrinho() {
   document.getElementById("carrinho").classList.remove("aberto");
   document.getElementById("overlay").style.display = "none";
 }
 
-/* pagamento */
-function selecionarPagamento(btn){
-  document.querySelectorAll(".pagamentos button")
-    .forEach(b => b.classList.remove("ativo"));
-
+function selecionarPagamento(btn) {
+  document.querySelectorAll(".pagamentos button").forEach(b => b.classList.remove("ativo"));
   btn.classList.add("ativo");
   pagamentoSelecionado = btn.innerText;
   btnFinalizar.disabled = false;
 
-  const trocoBox = document.getElementById("trocoBox");
-
-  if (pagamentoSelecionado === "Dinheiro") {
-    trocoBox.style.display = "block";
-  } else {
-    trocoBox.style.display = "none";
-    trocoInfo = "";
-  }
+  document.getElementById("trocoBox").style.display =
+    pagamentoSelecionado === "Dinheiro" ? "block" : "none";
 }
 
-/* troco */
-function calcularTroco(){
-  trocoInfo = "";
-
-  if (pagamentoSelecionado !== "Dinheiro") return;
-
-  const precisaTroco = document.querySelector('input[name="troco"]:checked').value;
-  const valorPago = parseFloat(document.getElementById("valorTroco").value);
-
-  if (precisaTroco === "sim" && valorPago && valorPago >= total) {
-    const troco = valorPago - total;
-    trocoInfo =
-      `\n💵 *Pagou com:* R$ ${valorPago.toFixed(2)}` +
-      `\n🔁 *Troco:* R$ ${troco.toFixed(2)}`;
+function finalizarPedido() {
+  if (carrinho.length === 0) {
+    alert("Carrinho vazio");
+    return;
   }
-}
 
-/* whatsapp */
-function finalizarPedido(){
+  let endereco = prompt("Digite seu endereço completo:");
+  if (!endereco || endereco.trim() === "") {
+    alert("Endereço obrigatório");
+    return;
+  }
+
   let msg = "🧾 *NOVO PEDIDO*\n\n";
 
   carrinho.forEach(i => {
-    msg += `🍔 *${i.nome}*   ${i.qtd}x\n`;
-
-    if (i.extrasTexto) {
-      i.extrasTexto.split(",").forEach(extra => {
-        msg += `• ${extra}\n`;
-      });
-    }
-
-    if (i.obs) {
-      msg += `⚠️ Obs: ${i.obs}\n`;
-    }
-
+    msg += `🍔 *${i.nome}*  —  ${i.qtd}x\n`;
+    if (i.extrasTexto) msg += `➕ ${i.extrasTexto}\n`;
+    if (i.obs) msg += `📝 ${i.obs}\n`;
     msg += "\n";
   });
 
-  msg += `💰 *Total:* R$ ${total.toFixed(2)}\n`;
-  msg += `💳 *Pagamento:* ${pagamentoSelecionado}`;
+  msg += `🚴 *Entrega:* R$ ${taxaEntrega.toFixed(2)}\n`;
+  msg += `💰 *Total:* R$ ${(total + taxaEntrega).toFixed(2)}\n`;
+  msg += `💳 *Pagamento:* ${pagamentoSelecionado}\n`;
+  msg += `📍 *Endereço:* ${endereco}\n`;
 
-  if (pagamentoSelecionado === "Dinheiro" && trocoInfo) {
-    msg += trocoInfo;
+  if (pagamentoSelecionado === "Dinheiro") {
+    let troco = document.getElementById("valorTroco").value;
+    if (troco) {
+      let calc = troco - (total + taxaEntrega);
+      msg += `💵 *Troco para:* R$ ${troco}\n`;
+      msg += `🔁 *Troco:* R$ ${calc.toFixed(2)}\n`;
+    }
   }
 
   const telefone = "12988070269";
-  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`;
-  window.open(url, "_blank");
+  window.open(`https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`, "_blank");
 }
