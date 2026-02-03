@@ -128,18 +128,13 @@ function selecionarPagamento(btn) {
 }
 
 function finalizarPedido() {
-  if (carrinho.length === 0) {
-    alert("Carrinho vazio");
-    return;
-  }
+  if (carrinho.length === 0) return;
 
   const endereco = document.getElementById("endereco").value.trim();
   const bairro = document.getElementById("bairro").value.trim();
 
-  if (!endereco || !bairro) {
-    alert("Por favor, preencha o endereço e o bairro.");
-    return;
-  }
+  // se não preencher, simplesmente não envia
+  if (!endereco || !bairro) return;
 
   let msg = "🧾 *NOVO PEDIDO*\n\n";
 
@@ -157,9 +152,9 @@ function finalizarPedido() {
   msg += `🏘️ *Bairro:* ${bairro}\n`;
 
   if (pagamentoSelecionado === "Dinheiro") {
-    let troco = document.getElementById("valorTroco").value;
+    const troco = document.getElementById("valorTroco").value;
     if (troco) {
-      let calc = troco - (total + taxaEntrega);
+      const calc = troco - (total + taxaEntrega);
       msg += `💵 *Troco para:* R$ ${troco}\n`;
       msg += `🔁 *Troco:* R$ ${calc.toFixed(2)}\n`;
     }
